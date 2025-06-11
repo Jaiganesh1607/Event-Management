@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/Jaiganesh1607/Event-Management/issues"
   },
-  "homepage": "https://github.com/Jaiganesh1607/Event-Management#readme"
+  "homepage": "https://github.com/Jaiganesh1607/Event-Management#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongodb": "^6.17.0"
+  }
 }
