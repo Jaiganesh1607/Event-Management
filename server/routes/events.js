@@ -1,15 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const mongoose = require('mongoose');
-
-const EventSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  about: { type: String, required: true },
-  type: { type: String, required: true }
-}, { timestamps: true });
-
-
-const Event = mongoose.model('Event', EventSchema);
+const Event=require('../Models/Events.js');
 // Get event
 router.get('/', async (req, res) => {
   try {
