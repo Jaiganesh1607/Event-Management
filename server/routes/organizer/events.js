@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router();
 const mongoose = require('mongoose');
+const mongodb= require('mongodb');
 const Event=require('../../Models/Events.js');
+const User=require('../../Models/Users.js');
 // Get event
 router.get('/', async (req, res) => {
   try {
@@ -14,28 +16,27 @@ router.get('/', async (req, res) => {
 
 // POST a new event
 router.post('/', async (req, res) => {
+  const userId = req.body.userId;  // Make sure userId is sent in the request body
+
   const event = new Event({
     name: req.body.name,
     about: req.body.about,
-    type: req.body.type
+    type: req.body.type,
   });
 
   try {
     const newEvent = await event.save();
-    res.status(201).json(newEvent);
+
+    // Add event ID to user's myEvents
+    await User.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(userId),
+      { $push: { myEvents: newEvent._id } }
+    );
+
+    res.status(201).json({ message: 'Event created', event: newEvent });
+
   } catch (err) {
     res.status(400).json({ message: err.message });
-  }
-});
-
-// DELETE an event
-router.delete('/:id', async (req, res) => {
-  try {
-    const result = await Event.findByIdAndDelete(req.params.id);
-    if (!result) return res.status(404).json({ message: 'Event not found' });
-    res.json({ message: 'Event deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
 });
 
