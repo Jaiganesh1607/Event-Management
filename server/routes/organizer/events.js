@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const mongoose = require('mongoose');
-const Event=require('../Models/Events.js');
+const Event=require('../../Models/Events.js');
 // Get event
 router.get('/', async (req, res) => {
   try {
